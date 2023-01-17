@@ -68,6 +68,28 @@
         </div>
         @enderror
 
+
+        <div class="mb-3">
+            <label for="technologies" class="form-label">Technologies</label>
+            <select multiple class="form-select form-select-sm" name="technologies[]" id="technologies">
+                <option value="" disabled>Select a technology</option>
+                @forelse ($technologies as $technology)
+
+                @if ($errors->any())
+                <!-- Pagina con errori di validazione, deve usare old per verificare quale id di technology preselezionare -->
+                <option value="{{$technology->id}}" {{ in_array($technology->id, old('technologies', [])) ? 'selected' : '' }}>{{$technology->name}}</option>
+                @else
+                <!-- Pagina caricate per la prima volta: deve mostrarare i technology preseleziononati dal db -->
+                <option value="{{$technology->id}}" {{ $project->technologies->contains($technology->id) ? 'selected' : ''}}>{{$technology->name}}</option>
+                @endif
+                @empty
+                <option value="" disabled>Sorry 😥 no technologies in the system</option>
+                @endforelse
+
+            </select>
+        </div>
+
+
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
             <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" rows="4">{{old('description'), $project->description}}</textarea>
