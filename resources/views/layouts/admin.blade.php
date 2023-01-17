@@ -16,6 +16,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <link rel="stylesheet" href="../../scss/app.scss">
     <!-- Usando Vite -->
     @vite(['resources/js/app.js'])
 </head>
@@ -65,6 +66,13 @@
                                     <span data-feather="file" class="align-text-bottom"></span>
                                     <i class="fas fa-pencil fa-sm fa-fw"></i>
                                     Projects
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="">
+                                    <span data-feather="file" class="align-text-bottom"></span>
+                                    <i class="fas fa-folder fa-sm fa-fw"></i>
+                                    Types
                                 </a>
                             </li>
                     </div>

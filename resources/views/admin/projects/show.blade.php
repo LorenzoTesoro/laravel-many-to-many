@@ -10,11 +10,13 @@
 <div class="placeholder p-5 bg-secondary">Placeholder</div>
 
 @endif
-
 <h1>{{$project->title}}</h1>
 <h5>{{$project->slug}}</h5>
 <div class="description">
     {{$project->description}}
 </div>
-
+<div class="type">
+    <strong>Type:</strong>
+    {{ $project->type ? $project->type->name : 'Without type'}}
+</div>
 @endsection
