@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 
 class ProjectController extends Controller
@@ -41,6 +42,14 @@ class ProjectController extends Controller
     {
         // validate data
         $val_data = $request->validated();
+
+        // save input cover_image
+        if ($request->hasFile('cover_image')) {
+            $cover_image = Storage::put('uploads', $val_data['cover_image']);
+            //dd($cover_image);
+            // replace the value of cover_image inside $val_data
+            $val_data['cover_image'] = $cover_image;
+        }
 
         // generate project slug
         $project_slug = Project::generateSlug($val_data['title']);
@@ -86,6 +95,17 @@ class ProjectController extends Controller
     {
         $val_data = $request->validated();
 
+        // check if the request has a cover_image field
+        if ($request->hasFile('cover_image')) {
+            // check if the current project has an image if yes, delete it
+            if ($project->cover_image) {
+                Storage::delete($project->cover_image);
+            }
+            $cover_image = Storage::put('uploads', $val_data['cover_image']);
+            // replace the value of cover_image inside $val_data
+            $val_data['cover_image'] = $cover_image;
+        }
+
         // update project slug
         $project_slug = Project::generateSlug($val_data['title']);
         $val_data['slug'] = $project_slug;
@@ -104,6 +124,10 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        if ($project->cover_image) {
+            Storage::delete($project->cover_image);
+        }
+
         $project->delete();
 
         return to_route('admin.projects.index')->with('message', 'Project deleted successfully');

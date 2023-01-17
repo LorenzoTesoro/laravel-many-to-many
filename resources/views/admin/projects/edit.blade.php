@@ -40,6 +40,11 @@
                 <small id="coverImageHelper" class="text-muted">Replace the project cover image</small>
             </div>
         </div>
+        @error('cover_image')
+        <div class="alert alert-danger" role="alert">
+            {{$message}}
+        </div>
+        @enderror
 
 
         <div class="mb-3">
