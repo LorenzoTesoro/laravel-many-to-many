@@ -58,6 +58,24 @@
     </div>
     @enderror
 
+
+    <div class="mb-3">
+        <label for="technologies" class="form-label">Technologies</label>
+        <select multiple class="form-select form-select-sm" name="technologies[]" id="technologies">
+            <option value="" disabled>Select a tag</option>
+            @forelse ($technologies as $technology)
+
+            @if ($errors->any())
+            <option value="{{$technology->id}}" {{ in_array($technology->id, old('technologies', [])) ? 'selected' : '' }}>{{$technology->name}}</option>
+            @else
+            <option value="{{$technology->id}}">{{$technology->name}}</option>
+            @endif
+            @empty
+            <option value="" disabled>Sorry 😥 no technologies in the system</option>
+            @endforelse
+        </select>
+    </div>
+
     <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" rows="3"></textarea>

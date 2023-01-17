@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Technology;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Type;
 
@@ -31,7 +32,8 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all(); // prendo tutti i tipi
-        return view('admin.projects.create', compact('types')); // glieli passo con compact
+        $technologies = Technology::all();
+        return view('admin.projects.create', compact('types', 'technologies')); // glieli passo con compact
     }
 
     /**
@@ -58,7 +60,11 @@ class ProjectController extends Controller
         $val_data['slug'] = $project_slug;
 
         // create project
-        Project::create($val_data);
+        $project = Project::create($val_data);
+
+        if ($request->has('technologies')) {
+            $project->technologies()->attach($val_data['technologies']);
+        }
 
         // redirect
         return to_route('admin.projects.index')->with('message', 'Project added successfully');

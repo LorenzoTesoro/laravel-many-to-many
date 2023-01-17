@@ -19,4 +19,19 @@
     <strong>Type:</strong>
     {{ $project->type ? $project->type->name : 'Without type'}}
 </div>
+
+<div class="technologies">
+    <strong>Technologies:</strong>
+    @if(count($project->technologies) > 0 )
+
+
+    @foreach ($project->technologies as $technology)
+    <span>#{{$technology->name}} </span> <!-- #css #php #js -->
+    @endforeach
+
+    @else
+    <span>No technology associated to the current project</span>
+    @endif
+
+</div>
 @endsection
